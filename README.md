@@ -8,9 +8,9 @@ O enunciado está em [`README.pdf`](README.pdf) (versão em inglês: [`README.EN
 
 | | URL |
 |---|---|
-| Front-end (público) | _a preencher após o deploy_ |
-| API real | _a preencher após o deploy_ |
-| Documentação Swagger | _URL da API_`/api-docs` |
+| Front-end (público) | https://sir-frontend-alunos.onrender.com |
+| API real | https://sir-api-alunos.onrender.com |
+| Documentação Swagger | https://sir-api-alunos.onrender.com/api-docs |
 
 > A API está no plano gratuito do Render: depois de uns minutos sem pedidos adormece, e o primeiro pedido pode demorar cerca de um minuto.
 
@@ -50,7 +50,7 @@ npm run seed            # carrega mock-data/bd.json para o Atlas (idempotente)
 npm start               # http://localhost:3001  ·  Swagger em /api-docs
 ```
 
-Para o front-end usar a API real, editar `frontend/config.js` (`API_BASE: "http://localhost:3001"`) e abrir o front-end pelo json-server (`http://localhost:3000`). O `CORS_ORIGIN=*` do `.env` permite esse acesso entre portas.
+Para o front-end usar a API real local, editar `frontend/config.js` (`LOCAL_API_BASE = "http://localhost:3001"`) e abrir o front-end pelo json-server (`http://localhost:3000`). O `CORS_ORIGIN=*` do `.env` permite esse acesso entre portas.
 
 Mais detalhes (endpoints, variáveis de ambiente, estrutura) em [`backend/README.md`](backend/README.md).
 
@@ -97,7 +97,7 @@ Verificar: `https://<a-tua-api>.onrender.com/health` deve responder `{"api":"ok"
 
 ### Front-end (Render Static Site ou Vercel)
 
-1. Editar `frontend/config.js` com o URL da API: `API_BASE: "https://<a-tua-api>.onrender.com"` (sem `/` no fim).
+1. Editar `frontend/config.js` e pôr o URL da API em `PROD_API_BASE` (sem `/` no fim). Este URL só é usado fora de `localhost`, por isso o desenvolvimento local continua a usar o json-server.
 2. Fazer commit e push.
 3. Publicar a pasta `frontend/`:
    - **Render:** já vem no `render.yaml` (Static Site com Root Directory `frontend`, Publish Directory `.`, sem build).
