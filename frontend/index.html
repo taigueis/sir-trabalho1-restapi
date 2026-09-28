@@ -1,1 +1,101 @@
-<!-- Página CRUD de Alunos -->
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gestão de Alunos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <header class="page-header">
+      <h1>Gestão de Alunos</h1>
+      <p class="subtitle">CRUD de alunos consumindo a API REST</p>
+    </header>
+
+    <div id="feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+
+    <section class="card" aria-labelledby="form-title">
+      <h2 id="form-title">Adicionar aluno</h2>
+      <form id="aluno-form" novalidate>
+        <input type="hidden" id="aluno-id">
+        <div class="grid">
+          <div class="field">
+            <label for="nome">Nome</label>
+            <input id="nome" name="nome" type="text" autocomplete="off" required>
+            <span class="error" data-error-for="nome"></span>
+          </div>
+          <div class="field">
+            <label for="apelido">Apelido</label>
+            <input id="apelido" name="apelido" type="text" autocomplete="off" required>
+            <span class="error" data-error-for="apelido"></span>
+          </div>
+          <div class="field">
+            <label for="idCurso">Curso</label>
+            <select id="idCurso" name="idCurso" required></select>
+            <span class="error" data-error-for="idCurso"></span>
+          </div>
+          <div class="field">
+            <label for="anoCurricular">Ano curricular</label>
+            <select id="anoCurricular" name="anoCurricular" required>
+              <option value="">Selecionar…</option>
+              <option value="1">1.º ano</option>
+              <option value="2">2.º ano</option>
+              <option value="3">3.º ano</option>
+            </select>
+            <span class="error" data-error-for="anoCurricular"></span>
+          </div>
+          <div class="field">
+            <label for="idade">Idade</label>
+            <input id="idade" name="idade" type="number" min="16" max="99" inputmode="numeric">
+            <span class="error" data-error-for="idade"></span>
+          </div>
+        </div>
+        <div class="actions">
+          <button type="submit" id="submit-btn" class="btn btn-primary">Adicionar</button>
+          <button type="button" id="cancel-btn" class="btn" hidden>Cancelar edição</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card" aria-labelledby="list-title">
+      <div class="list-header">
+        <h2 id="list-title">Alunos <span id="count" class="count"></span></h2>
+        <div class="field filter">
+          <label for="filtro-curso">Filtrar por curso</label>
+          <select id="filtro-curso"></select>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Curso</th>
+              <th scope="col">Ano</th>
+              <th scope="col">Idade</th>
+              <th scope="col"><span class="sr-only">Ações</span></th>
+            </tr>
+          </thead>
+          <tbody id="alunos-body"></tbody>
+        </table>
+      </div>
+      <p id="empty" class="empty" hidden>Sem alunos para mostrar.</p>
+    </section>
+  </main>
+
+  <dialog id="confirm-dialog" aria-labelledby="confirm-title">
+    <form method="dialog">
+      <h2 id="confirm-title">Remover aluno</h2>
+      <p id="confirm-text"></p>
+      <div class="actions">
+        <button value="cancel" class="btn">Cancelar</button>
+        <button value="ok" class="btn btn-danger" id="confirm-ok">Remover</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
