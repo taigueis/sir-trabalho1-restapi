@@ -1,0 +1,27 @@
+# Render Blueprint: cria a API e o front-end a partir deste repositório.
+# Render -> New -> Blueprint -> escolher o repositório.
+services:
+  # API Express + MongoDB Atlas
+  - type: web
+    name: sir-api-alunos
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: MONGODB_URI
+        sync: false # pedido no dashboard; nunca vai para o Git
+      - key: CORS_ORIGIN
+        value: "*" # depois do deploy do front-end, trocar pelo URL dele
+
+  # Front-end estático (alternativa: Vercel, ver README.md)
+  - type: web
+    name: sir-frontend-alunos
+    runtime: static
+    rootDir: frontend
+    buildCommand: echo "sem build"
+    staticPublishPath: .

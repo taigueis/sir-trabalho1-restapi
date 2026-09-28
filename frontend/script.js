@@ -1,7 +1,6 @@
-// URL base da API. Vazio = mesma origem (json-server com --static).
+// URL base da API: definido em config.js. Vazio = mesma origem (json-server com --static).
 // Se a página for aberta via file://, usa o json-server local.
-// Na Parte 5, trocar por o URL da API no Render.
-const API_BASE = location.protocol.startsWith("http") ? "" : "http://localhost:3000";
+const API_BASE = window.APP_CONFIG?.API_BASE ?? (location.protocol.startsWith("http") ? "" : "http://localhost:3000");
 
 const state = { alunos: [], cursos: [], filtroCurso: "", editingId: null, pendingDeleteId: null };
 

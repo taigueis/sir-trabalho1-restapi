@@ -1,148 +1,110 @@
-# Atividade Prática #1
+# Atividade Prática #1 – Consumo e Implementação de APIs RESTful
 
-## Consumo e Implementação de APIs RESTful
+Gestão de alunos e cursos: front-end em HTML/CSS/JS (Fetch API), API simulada com json-server e API real com Node.js, Express e MongoDB Atlas, documentada com Swagger.
 
-### Objetivo Geral
+O enunciado está em [`README.pdf`](README.pdf) (versão em inglês: [`README.EN.pdf`](README.EN.pdf)).
 
-Consolidar os conhecimentos em desenvolvimento web com foco na criação, consumo e implementação de APIs RESTful utilizando tecnologias do ecossistema JavaScript:
+## Links
 
-- Node.js + Express
-- MongoDB / MongoDB Atlas
-- JSON-Server
-- Fetch API
-- Swagger
+| | URL |
+|---|---|
+| Front-end (público) | _a preencher após o deploy_ |
+| API real | _a preencher após o deploy_ |
+| Documentação Swagger | _URL da API_`/api-docs` |
 
-O projeto simula o ciclo completo de desenvolvimento de uma aplicação web com front-end e back-end separados, incluindo testes e deploy.
+> A API está no plano gratuito do Render: depois de uns minutos sem pedidos adormece, e o primeiro pedido pode demorar cerca de um minuto.
 
----
+## Estrutura
 
-## Partes do Trabalho
-
-### Parte 1: Estruturação da Base de Dados (JSON)
-
-- Criar um ficheiro `bd.json` com:
-
-  - Lista de alunos: `nome`, `apelido`, `idCurso`, `anoCurricular`
-  - Lista de cursos: `nomeDoCurso`
-
-- 📁 Diretório sugerido: `/mock-data/`
-- 📄 Entregável: `bd.json`
-
----
-
-### Parte 2: API Simulada com JSON-Server + Testes
-
-- Configurar e iniciar `json-server` com `bd.json`
-- Testar os endpoints com Postman (CRUD de alunos, leitura de cursos)
-- Exportar a coleção de testes
-
-- 📁 Diretório sugerido: `/mock-server/`
-- 📄 Entregáveis:
-  - Código de configuração (`package.json`, script json-server)
-  - Coleção `.json` do Postman em `/tests/`
-
----
-
-### Parte 3: Interface Web (CRUD de Alunos)
-
-- Desenvolver uma página web funcional para gerir alunos:
-  1. Ver alunos	
-  2. Apagar aluno
-  3. Adicionar aluno
-  4. Editar aluno
-- Opcionalmente gerir cursos
-- Utilizar `Fetch API` e programação assíncrona
-- 📁 Diretório sugerido: `/frontend/` (ver notas)
-  - 📄 Entregável: Página funcional conectada à API simulada
-
-
-Notas : 
-
-* verifique como é possível servir recursos estáticos a partir do json server
-
----
-
-### Parte 4: API RESTful real (Node.js + Express + MongoDB Atlas)
-
-- Migrar os dados para o MongoDB Atlas
-- Implementar a API Express com endpoints equivalentes ao JSON-server
-- Manter a estrutura RESTful
-- Sugestão : usar mongoose a abordagem MVC (bónus 5%)
-
-- 📁 Diretório sugerido: `/backend/`
-- 📄 Entregável: Código funcional da API com instruções
-
----
-
-### Parte 5: Deploy da Aplicação
-
-- Fazer deploy da API no [Render](https://render.com)
-- Fazer deploy do front-end no [Render](https://render.com) ou  [Vercel](https://vercel.com)
-- Adaptar o front-end para consumir a nova API
-
-📄 Incluir no `README.md`:
-
-- URL pública do front-end
-- URL da API real
-- 📄 Entregável: Links funcionais no repositório
-
----
-
-### Parte 6 : Documentação da API
-
-- Utilizar Swagger para documentar os endpoints da API
-- Incluir rota `/api-docs` na aplicação
-
-- 📁 Diretório sugerido: `/backend/docs/`
-- 📄 Entregável: Swagger funcional e acessível
-
----
-
-## Organização do Projeto e Git
-
-Dever realizar commits regulares.
-Deve utilizar branches sempre que se justifique.
-
-```text
-projeto-raiz/
-│
-├── /frontend/ ← Interface web (HTML/CSS/JS)
-├── /backend/ ← API RESTful com Node.js + MongoDB
-├── /mock-server/ ← JSON-server configurado
-├── /mock-data/ ← Base de dados JSON original
-├── /tests/ ← Coleção de testes Postman
-├── README.md ← Instruções, links e notas
-└── .gitignore, etc.
+```
+frontend/     interface web (index.html, style.css, script.js, config.js)
+backend/      API Express + Mongoose (MVC) e Swagger
+mock-server/  json-server configurado
+mock-data/    bd.json original
+tests/        coleção Postman
+render.yaml   Blueprint do Render
 ```
 
----
+## Correr localmente
 
-## Critérios de Avaliação
+Requisitos: Node.js 20+.
 
-| Critério                         | Peso |
-| -------------------------------- | ---- |
-| Base de dados JSON correta       | 10%  |
-| API simulada e testada (Postman) | 10%  |
-| Funcionalidade do front-end      | 25%  |
-| Qualidade da API real (Node.js)  | 30%  |
-| Integração front-end/backend     | 10%  |
-| Deploy funcional                 | 10%  |
-| Documentação Swagger             | 05%  |
+### 1. API simulada (json-server) + front-end
 
----
+```bash
+cd mock-server
+npm install
+npm start          # http://localhost:3000  (API e front-end na mesma porta)
+```
 
-## Entrega
+Os pedidos de escrita gravam em `mock-data/bd.json`. Para repor os dados: `git checkout mock-data/bd.json`.
 
-- Entrega via **GitHub Classroom**.
-- O repositório deve conter:
-  - Código funcional
-  - README.md com instruções claras
-  - Links de deploy (front e opcionalmente back)
+### 2. API real (Express + MongoDB Atlas)
 
----
+```bash
+cd backend
+npm install
+cp .env.example .env    # Windows: copy .env.example .env
+# editar .env e preencher MONGODB_URI
+npm run seed            # carrega mock-data/bd.json para o Atlas (idempotente)
+npm start               # http://localhost:3001  ·  Swagger em /api-docs
+```
 
-### Repositório Base
+Para o front-end usar a API real, editar `frontend/config.js` (`API_BASE: "http://localhost:3001"`) e abrir o front-end pelo json-server (`http://localhost:3000`). O `CORS_ORIGIN=*` do `.env` permite esse acesso entre portas.
 
-Usa o repositório template inicial fornecido no GitHub Classroom.
-# T_TRAB_RESTAPI
-# T_TRAB_RESTAPI
+Mais detalhes (endpoints, variáveis de ambiente, estrutura) em [`backend/README.md`](backend/README.md).
+
+### 3. Testes (Postman)
+
+Importar `tests/postman-collection.json` no Postman, ou correr:
+
+```bash
+npx newman run tests/postman-collection.json                                   # json-server
+npx newman run tests/postman-collection.json --env-var baseUrl=http://localhost:3001   # API real
+```
+
+A coleção usa a variável `baseUrl` (por defeito `http://localhost:3000`). Atenção: cria e apaga um aluno, o que consome um id.
+
+## Deploy
+
+### MongoDB Atlas
+
+1. Criar um cluster gratuito (M0).
+2. **Database Access** → criar um utilizador com papel *Read and write to any database* (usar uma password gerada, sem caracteres especiais).
+3. **Network Access** → *Add IP Address* → `0.0.0.0/0` (o Render não tem IP fixo no plano gratuito).
+4. **Connect → Drivers** → copiar a connection string e acrescentar o nome da base: `...mongodb.net/gestao_alunos?retryWrites=true&w=majority`.
+
+### API no Render (Web Service)
+
+**Com Blueprint (recomendado):** *New → Blueprint* → escolher este repositório. O `render.yaml` cria a API e o front-end. Quando pedido, preencher `MONGODB_URI`.
+
+**Manualmente:** *New → Web Service* → escolher o repositório e configurar:
+
+| Campo | Valor |
+|---|---|
+| Root Directory | `backend` |
+| Runtime | Node |
+| Build Command | `npm install` |
+| Start Command | `npm start` |
+| Health Check Path | `/health` |
+| Instance Type | Free |
+
+Em *Environment* definir `MONGODB_URI` (a connection string do Atlas), `NODE_VERSION=22` e `CORS_ORIGIN=*`.
+
+Depois do primeiro deploy, carregar os dados no Atlas uma vez, a partir da tua máquina: `cd backend && npm run seed`.
+
+Verificar: `https://<a-tua-api>.onrender.com/health` deve responder `{"api":"ok","baseDeDados":"ligada"}`, e `/api-docs` mostra o Swagger.
+
+### Front-end (Render Static Site ou Vercel)
+
+1. Editar `frontend/config.js` com o URL da API: `API_BASE: "https://<a-tua-api>.onrender.com"` (sem `/` no fim).
+2. Fazer commit e push.
+3. Publicar a pasta `frontend/`:
+   - **Render:** já vem no `render.yaml` (Static Site com Root Directory `frontend`, Publish Directory `.`, sem build).
+   - **Vercel:** *Add New → Project* → escolher o repositório → *Root Directory* `frontend`, *Framework Preset* `Other`, sem Build Command.
+4. Voltar à API no Render e mudar `CORS_ORIGIN` para o URL do front-end (sem `/` no fim, por exemplo `https://sir-frontend-alunos.onrender.com`), e guardar.
+5. Preencher a tabela de **Links** no topo deste README.
+
+## Git
+
+O repositório usa commits regulares e branches quando justificado. Entrega via GitHub Classroom.
